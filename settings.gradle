@@ -1,0 +1,1 @@
+include ':app', ':cloudcherry-android-sdk'
