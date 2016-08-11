@@ -7,8 +7,6 @@ import android.util.Log;
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
 import com.getcloudcherry.survey.helper.SurveyCC;
 
-import java.util.HashMap;
-
 public class MainActivity extends AppCompatActivity {
     private SwipeRevealLayout mSwipeLayout;
 
@@ -45,10 +43,10 @@ public class MainActivity extends AppCompatActivity {
      * Triggers the SDK method to show survey
      */
     void launchSurveySDK() {
-        HashMap<String, Object> aAnswers = new HashMap<>();
-        aAnswers.put("mobile", "9880083915");
-        aAnswers.put("email", "ritesh.dubey37@gmail.com");
-        SurveyCC.getInstance().setPreFill(aAnswers);
+//        HashMap<String, Object> aAnswers = new HashMap<>();
+//        aAnswers.put("prefillMobile", "9880083915");
+//        aAnswers.put("prefillEmail", "ritesh.dubey37@gmail.com");
+//        SurveyCC.getInstance().setPreFill(aAnswers);
         SurveyCC.getInstance().trigger();
     }
 }
