@@ -11,6 +11,6 @@ public class SampleAppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        SurveyCC.initialise(this, "ROHITH-50000");
+        SurveyCC.initialise(this, "rohith", "Test@123");
     }
 }
