@@ -5,11 +5,16 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.chauthai.swipereveallayout.SwipeRevealLayout;
+import com.getcloudcherry.survey.helper.Constants;
+import com.getcloudcherry.survey.helper.GsonHelper;
 import com.getcloudcherry.survey.helper.SurveyCC;
+import com.getcloudcherry.survey.interfaces.AnalyticsCallBack;
+import com.getcloudcherry.survey.model.Data;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AnalyticsCallBack {
     private SwipeRevealLayout mSwipeLayout;
 
     @Override
@@ -39,6 +44,8 @@ public class MainActivity extends AppCompatActivity {
                 Log.i("Swipe", "slide");
             }
         });
+        // Register listener to get Analytics update or can call RecordAnalytics.getInstance().getAnalyticsDataDump()
+        SurveyCC.getInstance().setAnalyticsListener(this);
     }
 
     /**
@@ -50,5 +57,31 @@ public class MainActivity extends AppCompatActivity {
         aAnswers.put("prefillEmail", "ritesh.dubey37@gmail.com");
         SurveyCC.getInstance().setPreFill(aAnswers);
         SurveyCC.getInstance().trigger();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        SurveyCC.getInstance().removeAnalyticsListener(this);
+    }
+
+    @Override
+    public void onSurveyQuestionSeen(Data iData) {
+        Constants.logInfo("Data", iData.toString());
+    }
+
+    @Override
+    public void onUpdatedAnalyticsData(ArrayList<Data> iData) {
+        Constants.logInfo("Full Data", GsonHelper.toJson(iData));
     }
 }
