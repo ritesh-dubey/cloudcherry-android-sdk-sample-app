@@ -101,9 +101,12 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
             add(R.drawable.star5_selector);
         }};
         if (mScStaticToken.isChecked())
-            SurveyCC.initialise(this, MyData.getInstance(this).getToken(), CustomTextStyle.STYLE_RECTANGLE, aSmileyRatingSelector, aStarRatingSelector);
+            SurveyCC.initialise(this, MyData.getInstance(this).getToken());
         else
-            SurveyCC.initialise(this, "rohith", "Test@123", aTokenConfig, CustomTextStyle.STYLE_RECTANGLE, aSmileyRatingSelector, aStarRatingSelector);
+            SurveyCC.initialise(this, "rohith", "Test@123", aTokenConfig);
+        SurveyCC.getInstance().setCustomTextStyle(CustomTextStyle.STYLE_RECTANGLE);
+        SurveyCC.getInstance().setSmileyRatingSelector(aSmileyRatingSelector);
+        SurveyCC.getInstance().setStarRatingSelector(aStarRatingSelector);
     }
 
     /**
