@@ -16,6 +16,7 @@ import com.getcloudcherry.survey.helper.Constants;
 import com.getcloudcherry.survey.helper.GsonHelper;
 import com.getcloudcherry.survey.helper.SurveyCC;
 import com.getcloudcherry.survey.interfaces.AnalyticsCallBack;
+import com.getcloudcherry.survey.interfaces.ExitCallBack;
 import com.getcloudcherry.survey.model.CustomTextStyle;
 import com.getcloudcherry.survey.model.Data;
 import com.getcloudcherry.survey.model.SurveyToken;
@@ -23,7 +24,7 @@ import com.getcloudcherry.survey.model.SurveyToken;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements AnalyticsCallBack {
+public class MainActivity extends AppCompatActivity implements AnalyticsCallBack, ExitCallBack {
     private SwipeRevealLayout mSwipeLayout;
     private SwitchCompat mScStaticToken;
     private EditText mEtTokenField;
@@ -71,6 +72,8 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
         });
         // Register listener to get Analytics update or can call RecordAnalytics.getInstance().getAnalyticsDataDump()
         SurveyCC.getInstance().setAnalyticsListener(this);
+        // Register listener to get exit callback
+        SurveyCC.getInstance().setExitListener(this);
     }
 
     /**
@@ -142,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
     protected void onDestroy() {
         super.onDestroy();
         SurveyCC.getInstance().removeAnalyticsListener(this);
+        SurveyCC.getInstance().removeExitListener(this);
     }
 
     @Override
@@ -152,5 +156,10 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
     @Override
     public void onUpdatedAnalyticsData(ArrayList<Data> iData) {
         Constants.logInfo("Full Data", GsonHelper.toJson(iData));
+    }
+
+    @Override
+    public void onSurveyExited(SurveyState iSurveyState) {
+        Constants.logInfo("Survey State", iSurveyState.toString());
     }
 }
