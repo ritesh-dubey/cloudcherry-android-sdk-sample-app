@@ -118,9 +118,10 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
         aAnswers.put("prefillEmail", "ritesh.dubey37@gmail.com");
         SurveyCC.getInstance().setPreFill(aAnswers);
         HashMap<String, String> aThrottleUniqueId = new HashMap<>();
-        aThrottleUniqueId.put("Email", "madhur.tewani@wowlabz.com");
+        aThrottleUniqueId.put("email", "madhur.tewani@wowlabz.com");
+        aThrottleUniqueId.put("mobile", "9876543210");
         SurveyCC.getInstance().setThrottleUniqueId(aThrottleUniqueId);
-        SurveyCC.getInstance().trigger(true);
+        SurveyCC.getInstance().trigger(this, true);
     }
 
     /**
@@ -149,16 +150,16 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
 
     @Override
     public void onSurveyQuestionSeen(Data iData) {
-        Constants.logInfo("Data", iData.toString());
+        Log.i("MainActivity", "Data" + iData.toString());
     }
 
     @Override
     public void onUpdatedAnalyticsData(ArrayList<Data> iData) {
-        Constants.logInfo("Full Data", GsonHelper.toJson(iData));
+        Log.i("MainActivity", "Full Data" + GsonHelper.toJson(iData));
     }
 
     @Override
     public void onSurveyExited(AnalyticsCallBack.SurveyExitedAt iSurveyState) {
-        Constants.logInfo("Survey State", iSurveyState.toString());
+        Constants.logInfo("MainActivity", "Survey State" + iSurveyState.toString());
     }
 }
