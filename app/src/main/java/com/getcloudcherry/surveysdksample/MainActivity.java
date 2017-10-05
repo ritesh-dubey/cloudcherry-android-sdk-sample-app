@@ -16,7 +16,6 @@ import com.getcloudcherry.survey.helper.Constants;
 import com.getcloudcherry.survey.helper.GsonHelper;
 import com.getcloudcherry.survey.helper.SurveyCC;
 import com.getcloudcherry.survey.interfaces.AnalyticsCallBack;
-import com.getcloudcherry.survey.interfaces.ExitCallBack;
 import com.getcloudcherry.survey.model.CustomTextStyle;
 import com.getcloudcherry.survey.model.Data;
 import com.getcloudcherry.survey.model.SurveyToken;
@@ -24,7 +23,7 @@ import com.getcloudcherry.survey.model.SurveyToken;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity implements AnalyticsCallBack, ExitCallBack {
+public class MainActivity extends AppCompatActivity implements AnalyticsCallBack {
     private SwipeRevealLayout mSwipeLayout;
     private SwitchCompat mScStaticToken;
     private EditText mEtTokenField;
@@ -72,8 +71,6 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
         });
         // Register listener to get Analytics update or can call RecordAnalytics.getInstance().getAnalyticsDataDump()
         SurveyCC.getInstance().setAnalyticsListener(this);
-        // Register listener to get exit callback
-        SurveyCC.getInstance().setExitListener(this);
     }
 
     /**
@@ -88,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
      * Initialise SDK
      */
     private void initialiseSDK() {
-        SurveyToken aTokenConfig = new SurveyToken(1, "mobile");
+        SurveyToken aTokenConfig = new SurveyToken(1, "Chennai");
         ArrayList<Integer> aSmileyRatingSelector = new ArrayList<Integer>() {{
             add(R.drawable.smiley1_selector);
             add(R.drawable.smiley2_selector);
@@ -104,9 +101,9 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
             add(R.drawable.star5_selector);
         }};
         if (mScStaticToken.isChecked())
-            SurveyCC.initialise(this, MyData.getInstance(this).getToken());
+            SurveyCC.initialise(this, "retail", "Cloudcherry@123", MyData.getInstance(this).getToken());
         else
-            SurveyCC.initialise(this, "rohith", "Test@123", aTokenConfig);
+            SurveyCC.initialise(this, "retail", "Cloudcherry@123", aTokenConfig);
         SurveyCC.getInstance().setCustomTextStyle(CustomTextStyle.STYLE_RECTANGLE);
         SurveyCC.getInstance().setSmileyRatingSelector(aSmileyRatingSelector);
         SurveyCC.getInstance().setStarRatingSelector(aStarRatingSelector);
@@ -120,7 +117,10 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
         aAnswers.put("prefillMobile", "9880083915");
         aAnswers.put("prefillEmail", "ritesh.dubey37@gmail.com");
         SurveyCC.getInstance().setPreFill(aAnswers);
-        SurveyCC.getInstance().trigger();
+        HashMap<String, String> aThrottleUniqueId = new HashMap<>();
+        aThrottleUniqueId.put("Email", "madhur.tewani@wowlabz.com");
+        SurveyCC.getInstance().setThrottleUniqueId(aThrottleUniqueId);
+        SurveyCC.getInstance().trigger(true);
     }
 
     /**
@@ -145,7 +145,6 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
     protected void onDestroy() {
         super.onDestroy();
         SurveyCC.getInstance().removeAnalyticsListener(this);
-        SurveyCC.getInstance().removeExitListener(this);
     }
 
     @Override
@@ -159,7 +158,7 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
     }
 
     @Override
-    public void onSurveyExited(SurveyState iSurveyState) {
+    public void onSurveyExited(AnalyticsCallBack.SurveyExitedAt iSurveyState) {
         Constants.logInfo("Survey State", iSurveyState.toString());
     }
 }
