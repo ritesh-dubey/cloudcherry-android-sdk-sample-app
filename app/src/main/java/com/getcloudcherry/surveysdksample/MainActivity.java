@@ -85,7 +85,7 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
      * Initialise SDK
      */
     private void initialiseSDK() {
-        SurveyToken aTokenConfig = new SurveyToken(1, "mobile");
+        SurveyToken aTokenConfig = new SurveyToken(1, "Chennai");
         ArrayList<Integer> aSmileyRatingSelector = new ArrayList<Integer>() {{
             add(R.drawable.smiley1_selector);
             add(R.drawable.smiley2_selector);
@@ -101,9 +101,9 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
             add(R.drawable.star5_selector);
         }};
         if (mScStaticToken.isChecked())
-            SurveyCC.initialise(this, MyData.getInstance(this).getToken());
+            SurveyCC.initialise(this, "retail", "Cloudcherry@123", MyData.getInstance(this).getToken());
         else
-            SurveyCC.initialise(this, "rohith", "Test@123", aTokenConfig);
+            SurveyCC.initialise(this, "retail", "Cloudcherry@123", aTokenConfig);
         SurveyCC.getInstance().setCustomTextStyle(CustomTextStyle.STYLE_RECTANGLE);
         SurveyCC.getInstance().setSmileyRatingSelector(aSmileyRatingSelector);
         SurveyCC.getInstance().setStarRatingSelector(aStarRatingSelector);
@@ -117,7 +117,11 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
         aAnswers.put("prefillMobile", "9880083915");
         aAnswers.put("prefillEmail", "ritesh.dubey37@gmail.com");
         SurveyCC.getInstance().setPreFill(aAnswers);
-        SurveyCC.getInstance().trigger();
+        HashMap<String, String> aThrottleUniqueId = new HashMap<>();
+        aThrottleUniqueId.put("email", "madhur.tewani@wowlabz.com");
+        aThrottleUniqueId.put("mobile", "9876543210");
+        SurveyCC.getInstance().setThrottleUniqueId(aThrottleUniqueId);
+        SurveyCC.getInstance().trigger(this, true);
     }
 
     /**
@@ -146,11 +150,16 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
 
     @Override
     public void onSurveyQuestionSeen(Data iData) {
-        Constants.logInfo("Data", iData.toString());
+        Log.i("MainActivity", "Data" + iData.toString());
     }
 
     @Override
     public void onUpdatedAnalyticsData(ArrayList<Data> iData) {
-        Constants.logInfo("Full Data", GsonHelper.toJson(iData));
+        Log.i("MainActivity", "Full Data" + GsonHelper.toJson(iData));
+    }
+
+    @Override
+    public void onSurveyExited(AnalyticsCallBack.SurveyExitedAt iSurveyState) {
+        Constants.logInfo("MainActivity", "Survey State" + iSurveyState.toString());
     }
 }
