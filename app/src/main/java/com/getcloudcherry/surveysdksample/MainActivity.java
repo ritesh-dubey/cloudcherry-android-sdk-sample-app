@@ -150,16 +150,17 @@ public class MainActivity extends AppCompatActivity implements AnalyticsCallBack
 
     @Override
     public void onSurveyQuestionSeen(Data iData) {
-        Log.i("MainActivity", "Data" + iData.toString());
+        Log.i("MainActivity", "Data: " + iData.toString());
     }
 
     @Override
     public void onUpdatedAnalyticsData(ArrayList<Data> iData) {
-        Log.i("MainActivity", "Full Data" + GsonHelper.toJson(iData));
+        Log.i("MainActivity", "Full Data: " + GsonHelper.toJson(iData));
     }
 
     @Override
-    public void onSurveyExited(AnalyticsCallBack.SurveyExitedAt iSurveyState) {
-        Constants.logInfo("MainActivity", "Survey State" + iSurveyState.toString());
+    public void onSurveyExited(AnalyticsCallBack.SurveyExitedAt iSurveyState, String iSurveyToken) {
+        Log.i("MainActivity", "Survey State: " + iSurveyState.toString());
+        Log.i("MainActivity", "Survey Token: " + iSurveyToken);
     }
 }
