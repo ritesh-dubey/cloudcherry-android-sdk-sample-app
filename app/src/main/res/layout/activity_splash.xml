@@ -10,13 +10,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.getcloudcherry.surveysdksample.MainActivity">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginLeft="@dimen/margin_32"
-        android:layout_marginRight="@dimen/margin_32"
-        android:layout_marginTop="@dimen/margin_32"
-        android:background="@android:color/white" />
+    <!--<View-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="1dp"-->
+        <!--android:layout_marginLeft="@dimen/margin_32"-->
+        <!--android:layout_marginRight="@dimen/margin_32"-->
+        <!--android:layout_marginTop="@dimen/margin_32"-->
+        <!--android:background="@android:color/white" />-->
 
     <ImageView
         android:layout_width="match_parent"
